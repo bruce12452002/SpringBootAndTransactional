@@ -1,3 +1,5 @@
+# 以下的註解有可能造成無法啟動
+# springboot 加載本文件原理： https://blog.csdn.net/chengkui1990/article/details/79866499
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/bruce_test?serverTimezone=UTC
@@ -5,4 +7,5 @@ spring:
     password: Aa-123456789
     driver-class-name: com.mysql.cj.jdbc.Driver
   #aop:
-    #proxy-target-class: false
+    #auto: true   #是否啟用 @EnableAspectJAutoProxy 註解，預設是啟用的
+    #proxy-target-class: false   #是否使用 CGLIB，SPRING BOOT 預設啟用
