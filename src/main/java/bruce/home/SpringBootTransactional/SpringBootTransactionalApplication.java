@@ -1,13 +1,30 @@
 package bruce.home.SpringBootTransactional;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.aop.framework.ProxyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+@EnableAspectJAutoProxy(proxyTargetClass = false, exposeProxy = false)
+// Spring
+// @EnableAspectJAutoProxy，預設是 JDK 動態代理，一定要有介面 @Transactional 才會生效
+// Spring 5.x 如果寫了 @EnableAspectJAutoProxy proxyTargetClass = false，這是預設值
+// 如果寫了 @EnableAspectJAutoProxy proxyTargetClass = true，只走 CGLIB 動態代理，此時 @Transactional 寫在介面無效
+//  exposeProxy 為方法調用不同方法，且在同一類別時，直接呼叫會使 @Transactional 失效，如果這個屬性為 true，
+//  就可以使用 AopContext.currentProxy()，有使用 AopContext.currentProxy()，目標方法的 @Transactional 才不會失效
+// this.方法名 試過了，@Transactional 會失效
+// 同類調用時，用兩種的動態代理，目標方法的 @Transactional 都會失效，除非是 jdk 動態代理，且使用 exposeProxy=true + AopContext.currentProxy()
+
+
+// SpringBoot 2.x 預設 已經有 @EnableAspectJAutoProxy ，所以可以不寫
+// 預設是 CGLIB 動態代理，註解的 proxyTargetClass 屬性設定無效；但 exposeProxy 屬性可以
+// 在 yml 設定 spring.aop.proxy-target-class=false 可以解決
 
 @SpringBootApplication
 public class SpringBootTransactionalApplication {
@@ -35,4 +52,5 @@ public class SpringBootTransactionalApplication {
         dataSource.setPoolPreparedStatements(false);
         return dataSource;
     }
+
 }
