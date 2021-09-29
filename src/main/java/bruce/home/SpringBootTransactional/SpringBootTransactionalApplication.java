@@ -13,13 +13,14 @@ import javax.sql.DataSource;
 
 @EnableAspectJAutoProxy(proxyTargetClass = false, exposeProxy = false)
 // Spring
-// @EnableAspectJAutoProxy，預設是 JDK 動態代理，一定要有介面 @Transactional 才會生效
+// @EnableAspectJAutoProxy，預設是 JDK 動態代理，@Transactional 寫在介面或類別都會生效
 // Spring 5.x 如果寫了 @EnableAspectJAutoProxy proxyTargetClass = false，這是預設值
 // 如果寫了 @EnableAspectJAutoProxy proxyTargetClass = true，只走 CGLIB 動態代理，此時 @Transactional 寫在介面無效
-//  exposeProxy 為方法調用不同方法，且在同一類別時，直接呼叫會使 @Transactional 失效，如果這個屬性為 true，
-//  就可以使用 AopContext.currentProxy()，有使用 AopContext.currentProxy()，目標方法的 @Transactional 才不會失效
-// this.方法名 試過了，@Transactional 會失效
-// 同類調用時，用兩種的動態代理，目標方法的 @Transactional 都會失效，除非是 jdk 動態代理，且使用 exposeProxy=true + AopContext.currentProxy()
+
+// exposeProxy 在同一類別呼叫自己的方法時，直接呼叫會使 @Transactional 失效，如果這個屬性為 true，
+// 就可以使用 AopContext.currentProxy()，有使用 AopContext.currentProxy()，目標方法的 @Transactional 才不會失效
+// 總結：同類調用時，用兩種的動態代理，目標方法的 @Transactional 都會失效
+// 只有是 JDK 動態代理且使用 exposeProxy=true + AopContext.currentProxy()
 
 
 // SpringBoot 2.x 預設 已經有 @EnableAspectJAutoProxy ，所以可以不寫

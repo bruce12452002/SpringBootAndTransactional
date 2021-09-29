@@ -8,4 +8,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   #aop:
     #auto: true   #是否啟用 @EnableAspectJAutoProxy 註解，預設是啟用的
-    #proxy-target-class: false   #是否使用 CGLIB，SPRING BOOT 預設啟用
+    #proxy-target-class: false   #是否使用 CGLIB，SPRING BOOT 預設是 true (啟用)，@EnableAspectJAutoProxy 的 proxyTargetClass 設定無效
