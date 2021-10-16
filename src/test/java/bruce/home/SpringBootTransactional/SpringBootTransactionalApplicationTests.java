@@ -37,7 +37,7 @@ class SpringBootTransactionalApplicationTests {
         bruceTblServiceImpl.aaa();
 
         // 如果使用 CGLIB，雖然 bruceTblServiceImpl.aaa() 沒有經過 interface，也沒有寫 @Transactional
-        // 但只要 bruceTblServiceImpl 實作了 IBruceTblService，然後 IBruceTblService 有 @Transactional
+        // 但只要 bruceTblServiceImpl 實作了 IBruceTblService，然後 IBruceTblService 的 aaa()有 @Transactional
         // 這時 @Transactional 也是有效的
     }
 }
