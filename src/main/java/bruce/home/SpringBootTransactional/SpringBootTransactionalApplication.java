@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 
 
 // SpringBoot 2.x 預設 已經有 @EnableAspectJAutoProxy ，所以可以不寫
-// 預設是 CGLIB 動態代理，註解的 proxyTargetClass 屬性設定無效；但 exposeProxy 屬性可以
+// 預設是 CGLIB 動態代理，註解的 proxyTargetClass 屬性設定無效；但 exposeProxy 屬性有效
 // 在 yml 設定 spring.aop.proxy-target-class=false 可以解決
 
 @SpringBootApplication
