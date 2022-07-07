@@ -1,15 +1,11 @@
 package bruce.home.SpringBootTransactional.service.impl;
 
 import bruce.home.SpringBootTransactional.service.IBruceTblService;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.aop.framework.ProxyConfig;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 @Service
 public class BruceTblServiceImpl implements IBruceTblService {
@@ -28,13 +24,15 @@ public class BruceTblServiceImpl implements IBruceTblService {
      * `name` varchar(10) DEFAULT NULL
      * ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
      */
+    /**
+     * spring transactional 主邏輯 PlatformTransactionManager
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insert() {
         final String sql = "insert into bruce_tbl(id, name) values(?,?) ";
         jdbcTemplate.update(sql, 777, "monkey");
-        int i = 1 / 0;
-
+         int i = 1 / 0;
 
 
 // 手動 rollback，如果想在錯誤時增加 log 之類的話
@@ -42,13 +40,12 @@ public class BruceTblServiceImpl implements IBruceTblService {
 //        try {
 //            savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
 //            final String sql = "insert into bruce_tbl(id, name) values(?,?) ";
-//            jdbcTemplate.update(sql, 999, "monkey");
+//            jdbcTemplate.update(sql, 666, "monkey");
 //            int i = 1 / 0;
-//        } catch (Exception e){
+//        } catch (Exception e) {
 //            System.out.println("xxxxx");
-//            if (Objects.nonNull(savePoint)) {
-//                TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
-//            }
+//            Optional.ofNullable(savePoint)
+//                    .ifPresent(s -> TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(s));
 //        }
 
 
