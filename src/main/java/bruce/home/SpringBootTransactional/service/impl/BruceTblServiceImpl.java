@@ -6,8 +6,10 @@ import org.springframework.aop.framework.ProxyConfig;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Service
 public class BruceTblServiceImpl implements IBruceTblService {
@@ -32,6 +34,23 @@ public class BruceTblServiceImpl implements IBruceTblService {
         final String sql = "insert into bruce_tbl(id, name) values(?,?) ";
         jdbcTemplate.update(sql, 777, "monkey");
         int i = 1 / 0;
+
+
+
+// 手動 rollback，如果想在錯誤時增加 log 之類的話
+//        Object savePoint = null;
+//        try {
+//            savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
+//            final String sql = "insert into bruce_tbl(id, name) values(?,?) ";
+//            jdbcTemplate.update(sql, 999, "monkey");
+//            int i = 1 / 0;
+//        } catch (Exception e){
+//            System.out.println("xxxxx");
+//            if (Objects.nonNull(savePoint)) {
+//                TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
+//            }
+//        }
+
 
 //        iBruceTblService.aaa();
 //        this.aaa();
