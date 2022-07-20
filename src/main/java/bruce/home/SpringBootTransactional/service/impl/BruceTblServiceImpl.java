@@ -36,7 +36,7 @@ public class BruceTblServiceImpl implements IBruceTblService {
         int i = 1 / 0;
 
 
-// 手動 rollback，如果想在錯誤時增加 log 之類的話
+// 手動 rollback，如果想在錯誤時增加 log 之類的話，可以使用如下的方式，或是分成兩個方法
 //        Object savePoint = null;
 //        try {
 //            savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
@@ -73,11 +73,12 @@ public class BruceTblServiceImpl implements IBruceTblService {
 
     /**
      * Propagation.NESTED 會判斷呼叫自己的有沒有事務，如果有就是上一個子事務，否則和 required 一樣
-     * 子事務回滾，父事務不會回滾，但要 try catch
+     * 子事務回滾，父事務不會回滾，但父事務要 try catch
+     * 父事務回滾，子事務也會回滾
      * <p>
-     * 如果錯誤時想記 log，可以使用 Propagation.NESTED
-     * 但要注意呼叫端不要寫對資料庫寫的動作(增刪改)
-     * nested 也不要 try catch
+     * 如果錯誤時想記 log：
+     * 1.對資料庫的操作包成一個方法，@Transactional(rollbackFor = Exception.class) 寫這樣即可
+     * 2.呼叫 1 的方法只要 try catch 即可，log 寫在 catch 裡，不用宣告 @Transactional
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
