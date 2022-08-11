@@ -32,6 +32,11 @@ class SpringBootTransactionalApplicationTests {
     }
 
     @Test
+    void testTryCatch() {
+        bruceTblServiceImpl.tryCatch();
+    }
+
+    @Test
     public void cglibTest() {
         // 如果使用 JDK 動態代理就會出如下的錯，因為要從 interface 進入才可以
         // Error creating bean with name 'bruce.home.SpringBootTransactional.SpringBootTransactionalApplicationTests':

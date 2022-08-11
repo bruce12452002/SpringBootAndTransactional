@@ -101,4 +101,12 @@ public class BruceTblServiceImpl implements IBruceTblService {
         jdbcTemplate.update(sql, 555, "cat");
         int i = 1 / 0;
     }
+
+    public void tryCatch() {
+        try {
+            iBruceTblService.insert();
+        } catch (Exception e) {
+            System.out.println("結束!");
+        }
+    }
 }
