@@ -12,4 +12,6 @@ public interface IBruceTblService {
 
 //    @Transactional(rollbackFor = Exception.class)
 //    void aaa();
+
+    void preparedStmt();
 }

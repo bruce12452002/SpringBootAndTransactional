@@ -1,12 +1,16 @@
 package bruce.home.SpringBootTransactional.service.impl;
 
 import bruce.home.SpringBootTransactional.service.IBruceTblService;
+import bruce.home.SpringBootTransactional.util.JdbcUtil;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Service
 public class BruceTblServiceImpl implements IBruceTblService {
@@ -107,6 +111,20 @@ public class BruceTblServiceImpl implements IBruceTblService {
             iBruceTblService.insert();
         } catch (Exception e) {
             System.out.println("結束!");
+        }
+    }
+
+    public void preparedStmt() {
+        // 使用 PreparedStatement 時，? 不可以用在 表名和欄位的 key
+        Connection connection = JdbcUtil.getConnection();
+        final String sql = "UPDATE ? SET name = 'bucket' WHERE id = 5 ";
+//        final String sql = "UPDATE " + "bruce_tbl"  + " SET name = 'bucket' WHERE id = 5 ";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, "bruce_tbl");
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
